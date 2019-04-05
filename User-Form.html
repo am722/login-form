@@ -1,1 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+#wrapper {
+    width: 30%;
+    margin: 50px auto;
+    padding: 50px;
+    background: #D7FBFF;
+  }
+  form {
+    margin: 30px auto;
+  }
+  .textInput {
+    border: none;
+    height: 28px;
+    margin: 2px;
+    border: 1px solid #6B7363;
+    font-size: 1.2em;
+    padding: 5px;
+    width: 95%;
+  }
+  .textInput:focus {
+    outline: none;
+  }
+  .btn {
+    width: 98.6%;
+    border: none;
+    margin-top: 5px;
+    color: white;
+    background-color: #3b5998;
+    border-radius: 5px;
+    padding: 12px;
+  }
+</style>
+  <meta charset="UTF-8">
+  <title>Form validation with JavaScript</title>
+  
+</head>
+<body>
+
+  <div id="wrapper">
+   <form method="POST"   onsubmit="return Validate()" name="vform" >
+   	<div id="username_div">
+   	  <label>Username</label> <br>
+   	  <input type="text" name="username" class="textInput">
+   	  <div id="name_error"></div>
+   	</div>
+   	<div id="email_div">
+   	  <label>Email</label> <br>
+   	  <input type="email" name="email" class="textInput">
+   	  <div id="email_error"></div>
+   	</div>
+   	<div id="DOB_div">
+   	  <label>DOB(DD/MM/YYYY)</label> <br>
+        <input type="text" name="password" class="textInput">
+        <div id="DOB_error"></div>
+   	</div>
+   	<div id="Phone_div">
+   	   <label>MOblie_Nu.</label> <br>
+   	   <input type="moblie-number" name="phone_number" class="textInput">
+   	   <div id="phone_error"></div>
+   	</div>
+   	<div>
+   	<input type="submit" name="register" value="submit" class="btn">
+   	</div>
+   </form>
+  </div>
+</body>
+</html>
+<script>
+   var username = document.forms['vform']['username'];
+var email = document.forms['vform']['email'];
+var DOB = document.forms['vform']['password'];
+var phone_number = document.forms['vform']['phone_number'];
+// SELECTING ALL ERROR DISPLAY ELEMENTS
+var name_error = document.getElementById('name_error');
+var email_error = document.getElementById('email_error');
+var DOB_error = document.getElementById('DOB_error');
+var phone_error = document.getElementById('phone_error');
+// SETTING ALL EVENT LISTENERS
+username.addEventListener('blur', nameVerify, true);
+email.addEventListener('blur', emailVerify, true);
+DOB.addEventListener('blur', passwordVerify, true);
+phone_number.addEventListener('blur',phone_numberVerify,true);
+// validation function
+function Validate() {
+  // validate username
+  if (username.value == "") {
+    username.style.border = "1px solid red";
+    document.getElementById('username_div').style.color = "red";
+    name_error.textContent = "Username is required";
+    username.focus();
+    return false;
+  }
+  // validate username
+  if (username.value.length < 3) {
+    username.style.border = "1px solid red";
+    document.getElementById('username_div').style.color = "red";
+    name_error.textContent = "Username must be at least 3 characters";
+    username.focus();
+    return false;
+  }
+  // validate email
+  if (email.value == "") {
+    email.style.border = "1px solid red";
+    document.getElementById('email_div').style.color = "red";
+    email_error.textContent = "Email is required";
+    email.focus();
+    return false;
+  }
+ 
+  
+  
+  // validate DOB
+  var date1 = new Date();
+        
+        var date2=new Date(DOB.value);
+        var pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/; 
+  if (DOB.value == "") {
+    DOB.style.border = "1px solid red";
+    document.getElementById('DOB_div').style.color = "red";
+    
+    DOB_error.textContent = "DOB is required";
+    DOB.focus();
+    return false;
+  }
+   if (pattern.test(DOB.value)) {
+            var y1 = date1.getFullYear(); 
+            var y2 = date2.getFullYear(); 
+            var age = y1 - y2;  
+ if(age<18)
+ {
+ 
+        DOB_error.textContent = "Age  is less than 18";
+       DOB.style.border = "1px solid red";
+       document.getElementById('DOB_div').style.color = "red";
+	  DOB.focus();
+	 return false;
+ }
+      }
+	  else {
+	        document.getElementById('DOB_div').style.color = "red";
+            DOB_error.textContent=("Invalid date format. Please Input in (dd/mm/yyyy) format!");
+			 DOB.focus();
+            return false;
+        }
+	  
+
+//validate Phone_number
+  if (phone_number.value == "") {
+    phone_number.style.border = "1px solid red";
+    document.getElementById('Phone_div').style.color = "red";
+    
+    phone_error.textContent = "Phone_Nu is required";
+    phone_number.focus();
+    return false;
+  }
+  if (phone_number.value.length < 10) {
+    phone_number.style.border = "1px solid red";
+    document.getElementById('Phone_div').style.color = "red";
+    phone_error.textContent = "Phone_Number must be at least 10 characters";
+    phone_number.focus();
+    return false;
+  }
+   if (phone_number.value.length > 10) {
+    phone_number.style.border = "1px solid red";
+    document.getElementById('Phone_div').style.color = "red";
+    phone_error.textContent = "Phone_Number must be at least 10 characters";
+    phone_number.focus();
+    return false;
+  }
+   if (isNaN(phone_number.value)) {
+    phone_number.style.border = "1px solid red";
+    document.getElementById('Phone_div').style.color = "red";
+    phone_error.textContent = "Phone_Number must be at Numeric characters";
+    phone_number.focus();
+    return false;
+  }
+  if ((phone_number.value.charAt(0)!=9)&&(phone_number.value.charAt(0)!=8)&&(phone_number.value.charAt(0)!=7)&&(phone_number.value.charAt(0)!=6)) {
+    phone_number.style.border = "1px solid red";
+    document.getElementById('Phone_div').style.color = "red";
+    phone_error.textContent = "Phone_Number must be start with 9,8,7,6";
+    phone_number.focus();
+    return false;
+  }
+  
+  
+  
+}
+// event handler functions
+function nameVerify() {
+  if (username.value != "") {
+   username.style.border = "1px solid #5e6e66";
+   document.getElementById('username_div').style.color = "#5e6e66";
+   name_error.innerHTML = "";
+   return true;
+  }
+}
+function emailVerify() {
+  if (email.value != "") {
+  	email.style.border = "1px solid #5e6e66";
+  	document.getElementById('email_div').style.color = "#5e6e66";
+  	email_error.innerHTML = "";
+  	return true;
+  }
+}
+//DOB
+function passwordVerify() {
+  if (DOB.value != "") {
+  	DOB.style.border = "1px solid #5e6e66";
+  	
+  	document.getElementById('DOB_div').style.color = "#5e6e66";
+  	DOB_error.innerHTML = "";
+  	return true;
+  }
+}
+function phone_numberVerify() {
+  if (phone_number.value != "") {
+  	phone_number.style.border = "1px solid #5e6e66";
+  	
+  	document.getElementById('Phone_div').style.color = "#5e6e66";
+  	phone_error.innerHTML = "";
+  	return true;
+  }
+}
+</script>
+
 
